@@ -16,7 +16,7 @@ object ImgurClient {
             val request = Request.Builder()
                     .url(url)
                     .header("Authorization", "Client-ID 0066c078c219c47")
-                    .header("User-Agent", "StudentSearch")
+                    .header("User-Agent", "Image Search")
                     .build()
 
 
