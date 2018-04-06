@@ -33,11 +33,11 @@ object ImgurClient {
         for (i in 0..(items.length() - 1)) {
             val item = items.getJSONObject(i)
             var id = if (item.getBoolean("is_album")) item.getString("cover") else item.getString("id")
-            photos.add(Photo(id = id, title = item.getString("title")))
+            photos.add(Photo(id = id, title = item.getString("title"), link = item.getString("link")))
         }
         return photos
     }
 }
 
 
-data class Photo(val id: String, val title: String)
+data class Photo(val id: String, val title: String, val link: String)

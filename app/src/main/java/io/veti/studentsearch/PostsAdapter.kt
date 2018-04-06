@@ -5,37 +5,41 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.View
 import android.widget.TextView
-import io.veti.studentsearch.network.Post
+import io.veti.studentsearch.network.Photo
 
-class PostsAdapter(var posts : List<Post> = ArrayList<Post>(),
-                   val listener: PostClickListener) : RecyclerView.Adapter<PostViewHolder>(){
+class PostsAdapter(var photos : List<Photo> = ArrayList(),
+                   val listener: PhotoClickListener) : RecyclerView.Adapter<PostViewHolder>(){
 
-    fun setElements(elements : List<Post>){
-        posts = elements
+    fun setElements(elements : List<Photo>){
+        photos = elements
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = posts[position]
-        holder.title.text = post.title
-        holder.body.text = post.body
-        holder.view.setOnClickListener { listener.onPostClicked(post) }
+        val photo = photos[position]
+        holder.id.text = photo.id
+        holder.title.text = photo.title
+        holder.link.text = photo.link
+        holder.view.setOnClickListener { listener.onPostClicked(photo) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.post_item, parent, false)
-        return PostViewHolder(view, view.findViewById(R.id.title) as TextView,
-                view.findViewById(R.id.body) as TextView)
+        return PostViewHolder(
+                view = view,
+                id = view.findViewById(R.id.id) as TextView,
+                title = view.findViewById(R.id.title) as TextView,
+                link = view.findViewById(R.id.link) as TextView)
     }
 
     override fun getItemCount(): Int {
-        return posts.size
+        return photos.size
     }
 
 
 }
 
-interface PostClickListener{
-    fun onPostClicked(post : Post)
+interface PhotoClickListener{
+    fun onPostClicked(photo : Photo)
 }
 
-class PostViewHolder(val view: View, val title : TextView, val body: TextView) : RecyclerView.ViewHolder(view)
+class PostViewHolder(val view: View, val id: TextView, val title : TextView, val link: TextView) : RecyclerView.ViewHolder(view)

@@ -6,12 +6,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
 import io.veti.studentsearch.experimental.Android
-import io.veti.studentsearch.network.JsonPlaceHolderClient
-import io.veti.studentsearch.network.Post
+import io.veti.studentsearch.network.ImgurClient
+import io.veti.studentsearch.network.Photo
 import kotlinx.coroutines.experimental.launch
 import java.io.IOException
 
-class MainActivity : AppCompatActivity(), PostClickListener {
+class MainActivity : AppCompatActivity(), PhotoClickListener {
 
 
     private lateinit var posts: RecyclerView
@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity(), PostClickListener {
     }
 
 
-    override fun onPostClicked(post: Post) {
-        Toast.makeText(this, "Clicked ${post.id}", Toast.LENGTH_SHORT).show()
+    override fun onPostClicked(photo: Photo) {
+        Toast.makeText(this, "Clicked ${photo.id}", Toast.LENGTH_SHORT).show()
     }
 
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), PostClickListener {
 
         launch(Android) {
             try {
-                val postsResult = JsonPlaceHolderClient.fetchPosts()
+                val postsResult = ImgurClient.fetchImages()
 
                 postsAdapter.setElements(postsResult.await())
                 postsAdapter.notifyDataSetChanged()

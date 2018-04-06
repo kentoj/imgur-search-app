@@ -15,7 +15,7 @@ object JsonPlaceHolderClient {
     fun fetchPosts() : Deferred<List<Post>> {
         return async(CommonPool) {
             delay(500)
-            val request = Request.Builder().url("https://jsonplaceholder.typicode.com/posts").build()
+            val request = Request.Builder().url("https://jsonplaceholder.typicode.com/photos").build()
             val response =  client.newCall(request).execute()
             val postsType = object : TypeToken<List<Post>>() {}.type
             Gson().fromJson<List<Post>>(response.body().string(), postsType)
