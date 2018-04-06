@@ -1,4 +1,4 @@
-package io.veti.studentsearch.experimental
+package io.veti.imagesearch.experimental
 
 import android.os.Handler
 import android.os.Looper

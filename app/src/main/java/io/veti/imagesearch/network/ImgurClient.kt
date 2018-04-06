@@ -1,4 +1,4 @@
-package io.veti.studentsearch.network
+package io.veti.imagesearch.network
 
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.Deferred
@@ -10,9 +10,9 @@ import org.json.JSONObject
 object ImgurClient {
     val client = OkHttpClient()
 
-    fun fetchImages(): Deferred<List<Photo>> {
+    fun fetchImages(pageNumber: Int = 0, searchTerm: String = "cat"): Deferred<List<Photo>> {
         return async(CommonPool) {
-            val url = "https://api.imgur.com/3/gallery/user/rising/0.json";
+            val url = "https://api.imgur.com/3/gallery/search/time/$pageNumber?q=$searchTerm"
             val request = Request.Builder()
                     .url(url)
                     .header("Authorization", "Client-ID 0066c078c219c47")

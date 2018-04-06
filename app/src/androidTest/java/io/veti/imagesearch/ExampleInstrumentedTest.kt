@@ -1,4 +1,4 @@
-package io.veti.studentsearch
+package io.veti.imagesearch
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

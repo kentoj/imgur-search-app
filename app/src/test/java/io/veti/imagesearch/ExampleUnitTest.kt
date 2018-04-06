@@ -1,4 +1,4 @@
-package io.veti.studentsearch
+package io.veti.imagesearch
 
 import org.junit.Test
 

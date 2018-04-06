@@ -1,4 +1,4 @@
-package io.veti.studentsearch.network
+package io.veti.imagesearch.network
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
