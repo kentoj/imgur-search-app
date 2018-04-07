@@ -1,7 +1,7 @@
 package io.veti.imagesearch
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
@@ -20,4 +20,5 @@ class DisplayImageActivity : AppCompatActivity() {
         val photoId = intent.getStringExtra(EXTRA_IMAGE_ID)
         Picasso.with(photo.context).load("https://i.imgur.com/$photoId.jpg").into(photo)
     }
+
 }
