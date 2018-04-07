@@ -27,13 +27,17 @@ object ImgurClient {
     }
 
     fun parseImagesJson(jsonObject: JSONObject): List<Photo> {
-        val items = jsonObject.getJSONArray("data")
+        val albums = jsonObject.getJSONArray("data")
         val photos = mutableListOf<Photo>()
+        val albumJson = albums.getJSONObject(0) // first album -- TODO remove hard coding
+        val photosJson = albumJson.getJSONArray("images")
 
-        for (i in 0..(items.length() - 1)) {
-            val item = items.getJSONObject(i)
-            var id = if (item.getBoolean("is_album")) item.getString("cover") else item.getString("id")
-            photos.add(Photo(id = id, title = item.getString("title"), link = item.getString("link")))
+        for (i in 0..(photosJson.length() -1)) {
+            val photoJson = photosJson.getJSONObject(i)
+            photos.add(Photo(
+                    id = photoJson.getString("id"),
+                    title = albumJson.getString("title"),
+                    link = albumJson.getString("link")))
         }
         return photos
     }
