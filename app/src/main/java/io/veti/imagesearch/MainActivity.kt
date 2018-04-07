@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), PhotoClickListener {
     private lateinit var photosView: RecyclerView
     private lateinit var photoAdapter: PhotoAdapter
     private lateinit var postsLayoutManager: RecyclerView.LayoutManager
+    private var pageNumber = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,18 @@ class MainActivity : AppCompatActivity(), PhotoClickListener {
         photosView = findViewById(R.id.posts_list) as RecyclerView
         photoAdapter = PhotoAdapter(listener = this)
         postsLayoutManager = LinearLayoutManager(this)
+
+        val scrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(!recyclerView.canScrollVertically(1)) {
+                    pageNumber += 1
+                    getImages()
+                }
+            }
+        }
+
+        photosView.addOnScrollListener(scrollListener)
 
         photosView.apply {
             setHasFixedSize(true)
@@ -50,20 +63,8 @@ class MainActivity : AppCompatActivity(), PhotoClickListener {
                 timer = Timer()
                 timer.schedule(object : TimerTask() {
                     override fun run() {
-                        launch(Android) {
-                            try {
-                                val searchText = findViewById<EditText>(R.id.search_text)
-                                searchText.text.toString()
-                                val postsResult = ImgurClient.fetchImages(searchTerm = searchText.text.toString())
-
-                                photoAdapter.setElements(postsResult.await())
-                                photoAdapter.notifyDataSetChanged()
-                                Log.i("SEARCH", "Data changed")
-                                hideKeyboard()
-                            } catch(exception: IOException) {
-                                Toast.makeText(this@MainActivity, "Phone not connected or service down", Toast.LENGTH_SHORT).show()
-                            }
-                        }
+                        pageNumber = 0
+                        getImages(clearImages = true)
                     }
                 }, delay)
             }
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity(), PhotoClickListener {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                Log.i("SEARCH", "changing value to $p0")
+//                Log.i("SEARCH", "changing value to $p0")
             }
 
         })
@@ -92,19 +93,28 @@ class MainActivity : AppCompatActivity(), PhotoClickListener {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-
+    private fun getImages(clearImages: Boolean = false) {
         launch(Android) {
             try {
-                val postsResult = ImgurClient.fetchImages()
+                val searchText = findViewById<EditText>(R.id.search_text)
+                searchText.text.toString()
+                val postsResult = ImgurClient.fetchImages(clearImages = clearImages, pageNumber = pageNumber, searchTerm = searchText.text.toString())
 
                 photoAdapter.setElements(postsResult.await())
                 photoAdapter.notifyDataSetChanged()
+                Log.i("SEARCH", "Data changed")
+                hideKeyboard()
             } catch(exception: IOException) {
                 Toast.makeText(this@MainActivity, "Phone not connected or service down", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        getImages()
     }
 
 }
