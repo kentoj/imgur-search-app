@@ -21,6 +21,7 @@ import java.io.IOException
 import java.util.*
 
 const val EXTRA_IMAGE_ID = "io.veti.imagesearch.IMAGE_ID"
+const val EXTRA_IMAGE_TITLE = "io.veti.imagesearch.IMAGE_TITLE"
 
 class MainActivity : AppCompatActivity(), PhotoClickListener {
 
@@ -97,6 +98,7 @@ class MainActivity : AppCompatActivity(), PhotoClickListener {
         Toast.makeText(this, "Clicked ${photo.id}", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, DisplayImageActivity::class.java).apply {
             putExtra(EXTRA_IMAGE_ID, photo.id)
+            putExtra(EXTRA_IMAGE_TITLE, photo.title)
         }
         startActivity(intent)
     }
