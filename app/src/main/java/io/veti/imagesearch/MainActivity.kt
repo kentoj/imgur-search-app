@@ -1,6 +1,7 @@
 package io.veti.imagesearch
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -18,7 +20,10 @@ import kotlinx.coroutines.experimental.launch
 import java.io.IOException
 import java.util.*
 
+const val EXTRA_IMAGE_ID = "io.veti.imagesearch.IMAGE_ID"
+
 class MainActivity : AppCompatActivity(), PhotoClickListener {
+
 
 
     private lateinit var photosView: RecyclerView
@@ -88,8 +93,12 @@ class MainActivity : AppCompatActivity(), PhotoClickListener {
     }
 
 
-    override fun onPhotoClicked(photo: Photo) {
+    override fun onPhotoClicked(photo: Photo, view: View) {
         Toast.makeText(this, "Clicked ${photo.id}", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, DisplayImageActivity::class.java).apply {
+            putExtra(EXTRA_IMAGE_ID, photo.id)
+        }
+        startActivity(intent)
     }
 
 

@@ -22,7 +22,7 @@ class PhotoAdapter(var photos : List<Photo> = ArrayList(),
         holder.title.text = photo.title
         holder.link.text = photo.link
         Picasso.with(holder.photo.context).load("https://i.imgur.com/${photos[position].id}.jpg").into(holder.photo)
-        holder.view.setOnClickListener { listener.onPhotoClicked(photo) }
+        holder.view.setOnClickListener { listener.onPhotoClicked(photo, holder.view) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
@@ -43,7 +43,7 @@ class PhotoAdapter(var photos : List<Photo> = ArrayList(),
 }
 
 interface PhotoClickListener{
-    fun onPhotoClicked(photo : Photo)
+    fun onPhotoClicked(photo : Photo, view: View)
 }
 
 class PhotoViewHolder(
